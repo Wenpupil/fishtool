@@ -9,21 +9,22 @@ import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.esri.arcgisruntime.data.FeatureCollection;
-import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
-import com.esri.arcgisruntime.mapping.view.MapView;
 import com.example.fishandenvironment.R;
 import com.example.fishandenvironment.bean.Halobios;
-import com.example.fishandenvironment.util.ArcGisUtil;
 import com.example.fishandenvironment.util.LogUtil;
+import com.example.fishandenvironment.util.MapUtil;
 import com.example.fishandenvironment.view.RulerView;
 import com.githang.statusbar.StatusBarCompat;
+import com.mapbox.android.gestures.MoveGestureDetector;
+import com.mapbox.mapboxsdk.geometry.LatLng;
+import com.mapbox.mapboxsdk.maps.MapView;
+import com.mapbox.mapboxsdk.maps.MapboxMap;
+import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 
 import org.litepal.LitePal;
 
@@ -38,16 +39,16 @@ public class AnalysisFragment extends Fragment{
     private View view;
     //地图
     private MapView mapView;
+    private MapboxMap mapboxMap;
     //更多选项
     private ImageView all;
     //底部tab
     private LinearLayout mainTab;
     //时间控件
     private RulerView rulerView;
-    //ArcGis显示在地图上的特征集合管理
-    private FeatureCollection featureCollection;
     //显示在地图上的点集链表
     private List<Halobios> halobios;
+    private MapUtil mapUtil;
     private Activity activity;
 
     public AnalysisFragment() {
@@ -76,20 +77,22 @@ public class AnalysisFragment extends Fragment{
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_analysis,
                 container, false);
+        mapUtil = new MapUtil();
         initView();
         initRulerView();
         return view;
     }
     private void initView(){
-        GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
         mapView = view.findViewById(R.id.mapview);
         rulerView = view.findViewById(R.id.rulerView);
 
-        mapView.getGraphicsOverlays().add(graphicsOverlay);
-        ArcGisUtil.setupMap(mapView);
-        featureCollection = ArcGisUtil.addFeatureLayer(mapView);
-
+        mapUtil.initMapView(mapView);
         //设置状态栏颜色
+        halobios =LitePal
+                .where("time like ?","2008/1/%")
+                .find(Halobios.class);
+        LogUtil.d("AnalysisFragment","halobios = " + halobios.size());
+        mapUtil.addGeoJsonToMapView(mapView,halobios);
         StatusBarCompat.setStatusBarColor(activity,
                 activity.getResources().getColor(R.color.colorPrimaryDark));
     }
@@ -101,16 +104,14 @@ public class AnalysisFragment extends Fragment{
                 //TODO:有问题处理图层问题
                 LogUtil.d("AnalysisFragment","onEndResult = " + year + "." + month);
                 //清空特征集，重新加载物种分布点集
-                featureCollection.getTables().clear();
                 loadPointData(year, month);
-                halobios.clear();
             }
-
             @Override
             public void onScrollResult(String year,String month) {
                 //LogUtil.d("AnalysisFragment","onScrollResult = " + year + "." + month);
             }
         });
+        rulerView.computeScrollTo(2008f);
     }
 
     private void loadPointData(String year, String month){
@@ -119,48 +120,78 @@ public class AnalysisFragment extends Fragment{
         halobios =LitePal
                 .where("time like ?", time)
                 .find(Halobios.class);
-        //将新的点集数据 载入 特征集合图层 并且显示
-        ArcGisUtil.createHalobiosPointTable(featureCollection,halobios);
+        mapUtil.addGeoJsonToMapView(mapView,halobios);
     }
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
-        View.OnTouchListener onTouchListener = mapView.getOnTouchListener();
-        mapView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                mainTab.setVisibility(View.GONE);
-                all.setVisibility(View.VISIBLE);
-                return onTouchListener.onTouch(v,event);
-            }
-        });
-
+        mapViewListener();
     }
+
     @Override
-    public void onPause() {
-        Log.d("afragment","onPause");
-        if (mapView != null) {
-            mapView.pause();
-        }
-        super.onPause();
+    public void onStart() {
+        super.onStart();
+        mapView.onStart();
     }
 
     @Override
     public void onResume() {
         Log.d("afragment","onResume");
         super.onResume();
-        if (mapView != null) {
-            mapView.resume();
-        }
+        mapView.onResume();
     }
 
     @Override
+    public void onPause() {
+        Log.d("afragment","onPause");
+        super.onPause();
+        mapView.onPause();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mapView.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
+    }
+    @Override
     public void onDestroy() {
         Log.d("afragment","onDestroy");
-        if (mapView != null) {
-            mapView = null;
-            //mapView.dispose();
-        }
         super.onDestroy();
+        mapView.onDestroy();
+    }
+    //关于点击MapView行为
+    private void mapViewListener(){
+        mapView.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(@NonNull MapboxMap mapboxMap) {
+                mapboxMap.addOnMoveListener(new MapboxMap.OnMoveListener() {
+                    @Override
+                    public void onMoveBegin(@NonNull MoveGestureDetector detector) {
+                        mainTab.setVisibility(View.GONE);
+                        all.setVisibility(View.VISIBLE);
+                    }
+                    @Override
+                    public void onMove(@NonNull MoveGestureDetector detector) {
+                    }
+                    @Override
+                    public void onMoveEnd(@NonNull MoveGestureDetector detector) {
+                    }
+                });
+                mapboxMap.addOnMapClickListener(new MapboxMap.OnMapClickListener() {
+                    @Override
+                    public boolean onMapClick(@NonNull LatLng point) {
+                        mainTab.setVisibility(View.GONE);
+                        all.setVisibility(View.VISIBLE);
+                        return false;
+                    }
+                });
+            }
+        });
     }
 }

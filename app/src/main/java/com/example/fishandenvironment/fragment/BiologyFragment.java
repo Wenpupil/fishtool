@@ -18,7 +18,6 @@ import com.example.fishandenvironment.R;
 import com.example.fishandenvironment.adapter.BiologyRecyclerViewAdapter;
 import com.example.fishandenvironment.bean.Biology;
 import com.example.fishandenvironment.listener.BiologyClickListener;
-import com.example.fishandenvironment.util.DataUtil;
 import com.githang.statusbar.StatusBarCompat;
 
 import org.litepal.LitePal;
@@ -61,7 +60,7 @@ public class BiologyFragment extends Fragment {
         if (context instanceof BiologyRecyclerViewAdapter.OnBiologyClickListener) {
             mListener = (BiologyRecyclerViewAdapter.OnBiologyClickListener) context;
         } else {
-            mListener = new BiologyClickListener();
+            mListener = new BiologyClickListener(getContext());
         }
     }
 

@@ -21,6 +21,8 @@ import android.view.animation.DecelerateInterpolator;
 
 import androidx.annotation.Nullable;
 
+import com.example.fishandenvironment.util.LogUtil;
+
 import java.lang.ref.WeakReference;
 import java.math.BigDecimal;
 /*
@@ -57,7 +59,7 @@ public class RulerView extends View {
     /**
      * 第一次显示的刻度
      */
-    private float firstScale = 10f;
+    private float firstScale = 2008f;
     /**
      * 刻度最大值
      */
@@ -502,8 +504,8 @@ public class RulerView extends View {
         float last = currentScale % 1;
         last =(float)Math.floor(last*12)+1;
         int first = (int)currentScale;
-        Log.d("rulerview",first+"");
-        Log.d("rulerview", last+"");
+        //Log.d("rulerview",first+"");
+        //Log.d("rulerview", last+"");
         float result;
         String month;
         if(last < 10) result = (float)(first + last * 0.1);

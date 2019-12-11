@@ -36,8 +36,8 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:4.1.0'
     //Google Json依赖
     implementation 'com.google.code.gson:gson:2.8.5'
-    //ArcGisS依赖
-    implementation 'com.esri.arcgisruntime:arcgis-android:100.5.0'
+    //MapBox依赖 -- 地图
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:8.5.0'
     //状态栏操作API
     implementation 'com.githang:status-bar-compat:0.7'
     //图片加载框架

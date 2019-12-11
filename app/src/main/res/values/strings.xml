@@ -3,6 +3,10 @@
     <string name="http_data_halobios_url">http://101.132.134.48/wht/gethalobios.php</string>
     <string name="http_data_biology_url">http://101.132.134.48/wht/getbiology.php</string>
 
+    //mapbox令牌
+    <string name="mapbox_access_token">pk.eyJ1Ijoid2VucHVwaWwiLCJhIjoiY2s0MTQ4ZjU1MDFoaTNrczNtbzFubWc1NCJ9.JlVWjWBKC0m6D5bxmWEYIg</string>
+
+
     <string name="app_name">fishandenvironment</string>
     <string name="activity_main_iv_all">展开tab</string>
     <string name="main_tab_left">左图标</string>
@@ -16,4 +20,7 @@
 
     <string name="biology">物种</string>
     <string name="back">返回图片</string>
+
+    <string name="biology_info_name">鱼名字</string>
+    <string name="biology_info_namech">鱼的中文名字</string>
 </resources>
