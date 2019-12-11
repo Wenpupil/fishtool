@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<litepal>
+    <dbname value="SpeciesGis"/>
+    <version value="1"/>
+    <list>
+        <mapping class="com.example.fishandenvironment.bean.Biology"/>
+        <mapping class="com.example.fishandenvironment.bean.Halobios"/>
+        <mapping class="com.example.fishandenvironment.bean.Program"/>
+    </list>
+</litepal>

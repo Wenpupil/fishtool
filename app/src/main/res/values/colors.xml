@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#F44336</color>
+    <color name="colorPrimaryDark">#2196F3</color>
+    <color name="colorAccent">#FFEB3B</color>
+
+    <color name="white">#fff</color>
+
+    <!-- main_tab图标色 -->
+    <color name="main_tab_icon_color">#1296db</color>
+    <color name="main_tab_background">#ECECEC</color>
+    <color name="main_tab_textColor">#8a8a8a</color>
+    <color name="main_tab_textColor_in">#1296db</color>
+
+    <color name="test_point_color">#CF512F</color>
+
+    <color name="fragment_biology_background">#F3F3F3</color>
+</resources>

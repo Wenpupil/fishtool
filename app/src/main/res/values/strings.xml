@@ -1,0 +1,19 @@
+<resources>
+    <string name="http_data_program_url">http://101.132.134.48/wht/getprogram.php</string>
+    <string name="http_data_halobios_url">http://101.132.134.48/wht/gethalobios.php</string>
+    <string name="http_data_biology_url">http://101.132.134.48/wht/getbiology.php</string>
+
+    <string name="app_name">fishandenvironment</string>
+    <string name="activity_main_iv_all">展开tab</string>
+    <string name="main_tab_left">左图标</string>
+    <string name="main_tab_middle">中间图标</string>
+    <string name="main_tab_right">右图标</string>
+
+    <string name="fragment_biology_image">动物图片</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="fragment_biology_name">测试文字</string>
+
+    <string name="biology">物种</string>
+    <string name="back">返回图片</string>
+</resources>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/cl_fragment_analysis"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:lsp="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.esri.arcgisruntime.mapping.view.MapView
+        android:id="@+id/mapview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent">
+        <com.example.fishandenvironment.view.RulerView
+            android:id="@+id/rulerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            lsp:bgColor="#fcfffc"
+            lsp:firstScale="5"
+            lsp:isBgRoundRect="false"
+            lsp:largeScaleColor="#50b586"
+            lsp:largeScaleStroke="5dp"
+            lsp:minScale="2008"
+            lsp:maxScale="2017"
+            lsp:midScaleColor="#999999"
+            lsp:midScaleStroke="3dp"
+            lsp:resultNumColor="#50b586"
+            lsp:resultNumTextSize="12sp"
+            lsp:rulerHeight="25dp"
+            lsp:rulerToResultgap="10dp"
+            lsp:scaleCount="12"
+            lsp:scaleGap="10dp"
+            lsp:scaleNumColor="#666666"
+            lsp:scaleNumTextSize="12sp"
+            lsp:showScaleResult="true"
+            lsp:smallScaleColor="#aaaaaa"
+            lsp:smallScaleStroke="2dp"
+            lsp:unit="月"
+            lsp:unitColor="#50b586"
+            lsp:unitTextSize="10sp" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
