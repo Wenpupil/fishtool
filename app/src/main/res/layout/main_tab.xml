@@ -19,7 +19,7 @@
             android:layout_marginTop="6dp"
             android:layout_marginBottom="2dp"
             android:contentDescription="@string/main_tab_left"
-            android:src="@mipmap/main_tab_left"/>
+            android:src="@mipmap/ditu"/>
         <TextView
             android:id="@+id/tv_tab1"
             android:layout_width="match_parent"

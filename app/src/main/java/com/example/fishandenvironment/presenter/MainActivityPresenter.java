@@ -41,7 +41,7 @@ public class MainActivityPresenter {
         unSelect(lastSelect);
         switch(i){
             case 0:{
-                ivTabLeft.setImageResource(R.mipmap.main_tab_left_in);
+                ivTabLeft.setImageResource(R.mipmap.ditu_in);
                 tvTabLeft.setTextColor(context.getResources().getColor(
                         R.color.main_tab_textColor_in
                 ));
@@ -67,7 +67,7 @@ public class MainActivityPresenter {
     private void unSelect(int i){
         switch (i){
             case 0:{
-                ivTabLeft.setImageResource(R.mipmap.main_tab_left);
+                ivTabLeft.setImageResource(R.mipmap.ditu);
                 tvTabLeft.setTextColor(context.getResources().getColor(
                         R.color.main_tab_textColor
                 ));

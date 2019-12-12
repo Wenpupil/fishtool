@@ -7,6 +7,9 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.fishandenvironment.R;
@@ -16,13 +19,9 @@ import com.githang.statusbar.StatusBarCompat;
  * @author 方泽.Wenpupil
  * @version 1.0-2019.12.11
  */
-public class BiologyInfoActivity extends AppCompatActivity {
+public class BiologyInfoActivity extends AppCompatActivity implements View.OnClickListener{
     // Remove the below line after defining your own ad unit ID.
 
-    private TextView name;
-    private TextView namech;
-    private TextView content;
-    private SimpleDraweeView image;
     private Biology biology;
 
     @Override
@@ -31,12 +30,14 @@ public class BiologyInfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_biology_info);
         initView();
     }
-
+    //初始化界面
     private void initView(){
-        name = findViewById(R.id.name);
-        namech = findViewById(R.id.namech);
-        content = findViewById(R.id.content);
-        image = findViewById(R.id.image);
+        TextView name = findViewById(R.id.name);
+        TextView namech = findViewById(R.id.namech);
+        TextView content = findViewById(R.id.content);
+        ImageView close = findViewById(R.id.left_img);
+
+        SimpleDraweeView image = findViewById(R.id.image);
 
         biology = (Biology) getIntent().getSerializableExtra("biology");
         name.setText(biology.getName());
@@ -46,7 +47,19 @@ public class BiologyInfoActivity extends AppCompatActivity {
         Uri uri = Uri.parse(biology.getImage());
         image.setImageURI(uri);
 
+        close.setOnClickListener(this);
         StatusBarCompat.setStatusBarColor(this,
                 getResources().getColor(R.color.white));
+    }
+
+    @Override
+    public void onClick(View view){
+        switch (view.getId()){
+            case R.id.left_img:
+                finish();
+                break;
+            default:
+                break;
+        }
     }
 }

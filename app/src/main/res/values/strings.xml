@@ -13,14 +13,13 @@
     <string name="main_tab_middle">中间图标</string>
     <string name="main_tab_right">右图标</string>
 
-    <string name="fragment_biology_image">动物图片</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="custom_left_img">左边图片</string>
 
+    <string name="fragment_biology_image">动物图片</string>
     <string name="fragment_biology_name">测试文字</string>
 
     <string name="biology">物种</string>
     <string name="back">返回图片</string>
-
     <string name="biology_info_name">鱼名字</string>
     <string name="biology_info_namech">鱼的中文名字</string>
 </resources>

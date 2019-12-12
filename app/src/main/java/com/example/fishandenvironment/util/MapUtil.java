@@ -22,6 +22,8 @@ import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
 import com.mapbox.mapboxsdk.style.layers.TransitionOptions;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonOptions;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
+import com.mapbox.mapboxsdk.style.sources.RasterSource;
+import com.mapbox.mapboxsdk.style.sources.TileSet;
 
 import static com.mapbox.mapboxsdk.style.expressions.Expression.all;
 import static com.mapbox.mapboxsdk.style.expressions.Expression.division;
@@ -196,5 +198,8 @@ public class MapUtil {
                 textAllowOverlap(true)
         );
         loadedMapStyle.addLayer(count);
+    }
+    //TODO:添加栅格图层到MapView中
+    public void addRasterLayer(MapView mapView){
     }
 }
