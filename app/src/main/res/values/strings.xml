@@ -20,6 +20,8 @@
 
     <string name="biology">物种</string>
     <string name="back">返回图片</string>
+
     <string name="biology_info_name">鱼名字</string>
     <string name="biology_info_namech">鱼的中文名字</string>
+    <string name="histogram">直方图</string>
 </resources>

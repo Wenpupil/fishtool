@@ -4,7 +4,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="42dp"
+    android:background="@color/white">
 
-    
+    <ImageView
+        android:id="@+id/iv_histogram"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginEnd="@dimen/text_margin"
+        android:contentDescription="@string/histogram"
+        android:src="@mipmap/histogram"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

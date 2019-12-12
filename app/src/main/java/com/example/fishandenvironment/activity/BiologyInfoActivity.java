@@ -1,6 +1,7 @@
 package com.example.fishandenvironment.activity;
 
 import com.example.fishandenvironment.bean.Biology;
+import com.example.fishandenvironment.view.BarLineDialog;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import android.net.Uri;
@@ -35,8 +36,10 @@ public class BiologyInfoActivity extends AppCompatActivity implements View.OnCli
         TextView name = findViewById(R.id.name);
         TextView namech = findViewById(R.id.namech);
         TextView content = findViewById(R.id.content);
+        //退出活动
         ImageView close = findViewById(R.id.left_img);
-
+        //图表的格式查看数据按钮
+        ImageView histogram = findViewById(R.id.iv_histogram);
         SimpleDraweeView image = findViewById(R.id.image);
 
         biology = (Biology) getIntent().getSerializableExtra("biology");
@@ -48,15 +51,20 @@ public class BiologyInfoActivity extends AppCompatActivity implements View.OnCli
         image.setImageURI(uri);
 
         close.setOnClickListener(this);
+        histogram.setOnClickListener(this);
         StatusBarCompat.setStatusBarColor(this,
                 getResources().getColor(R.color.white));
     }
-
     @Override
     public void onClick(View view){
         switch (view.getId()){
             case R.id.left_img:
                 finish();
+                break;
+            case R.id.iv_histogram:
+                //TODO:通过图标展示物种信息
+                BarLineDialog barLineDialog = new BarLineDialog(this,biology);
+                barLineDialog.show();
                 break;
             default:
                 break;
