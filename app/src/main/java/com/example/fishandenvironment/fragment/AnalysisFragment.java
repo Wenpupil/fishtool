@@ -34,7 +34,7 @@ import java.util.List;
  * @author 方泽.Wenpupil
  * @version 1.0-2019.12.07
  */
-public class AnalysisFragment extends Fragment{
+public class AnalysisFragment extends Fragment implements View.OnClickListener{
 
     private View view;
     //地图
@@ -44,6 +44,12 @@ public class AnalysisFragment extends Fragment{
     private ImageView all;
     //底部tab
     private LinearLayout mainTab;
+    //图层控件
+    private LinearLayout layer;
+    //点集形式
+    private LinearLayout point;
+    //群集形式
+    private LinearLayout cluster;
     //时间控件
     private RulerView rulerView;
     //显示在地图上的点集链表
@@ -83,16 +89,24 @@ public class AnalysisFragment extends Fragment{
         return view;
     }
     private void initView(){
+        //地图控件
         mapView = view.findViewById(R.id.mapview);
+        //时间控件
         rulerView = view.findViewById(R.id.rulerView);
+        //图层选择
+        layer = view.findViewById(R.id.ll_layer);
+        point = view.findViewById(R.id.ll_point);
+        cluster = view.findViewById(R.id.ll_cluster);
 
         mapUtil.initMapView(mapView);
-        //设置状态栏颜色
+
         halobios =LitePal
                 .where("time like ?","2008/1/%")
                 .find(Halobios.class);
         LogUtil.d("AnalysisFragment","halobios = " + halobios.size());
         mapUtil.addGeoJsonToMapView(mapView,halobios);
+
+        //设置状态栏颜色
         StatusBarCompat.setStatusBarColor(activity,
                 activity.getResources().getColor(R.color.colorPrimaryDark));
     }
@@ -126,8 +140,30 @@ public class AnalysisFragment extends Fragment{
     public void onActivityCreated(@Nullable Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
         mapViewListener();
+        layer.setOnClickListener(this);
+        point.setOnClickListener(this);
+        cluster.setOnClickListener(this);
     }
-
+    @Override
+    public void onClick(View view){
+        switch (view.getId()){
+            case R.id.ll_layer:{
+                //TODO:弹出环境图层选择界面
+                LogUtil.d("AnalysisFragment","You click layer");
+                break;
+            }
+            case R.id.ll_point:{
+                //TODO:切换为点集的形式显示
+                LogUtil.d("AnalysisFragment","You click point");
+                break;
+            }
+            case R.id.ll_cluster:{
+                //TODO：切换为群集的形式显示
+                LogUtil.d("AnalysisFragment","You click cluster");
+                break;
+            }
+        }
+    }
     @Override
     public void onStart() {
         super.onStart();
