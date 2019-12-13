@@ -21,6 +21,10 @@ import com.example.fishandenvironment.util.MapUtil;
 import com.example.fishandenvironment.view.RulerView;
 import com.githang.statusbar.StatusBarCompat;
 import com.mapbox.android.gestures.MoveGestureDetector;
+import com.mapbox.geojson.Feature;
+import com.mapbox.geojson.FeatureCollection;
+import com.mapbox.geojson.Geometry;
+import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
@@ -35,11 +39,14 @@ import java.util.List;
  * @version 1.0-2019.12.07
  */
 public class AnalysisFragment extends Fragment implements View.OnClickListener{
+    //点集显示
+    private static final int MARKER = 2;
+    //群集显示--默认
+    private static final int CLUSTER = 3;
 
     private View view;
     //地图
     private MapView mapView;
-    private MapboxMap mapboxMap;
     //更多选项
     private ImageView all;
     //底部tab
@@ -56,6 +63,7 @@ public class AnalysisFragment extends Fragment implements View.OnClickListener{
     private List<Halobios> halobios;
     private MapUtil mapUtil;
     private Activity activity;
+    private int select = CLUSTER;
 
     public AnalysisFragment() {
         // Required empty public constructor
@@ -83,7 +91,6 @@ public class AnalysisFragment extends Fragment implements View.OnClickListener{
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_analysis,
                 container, false);
-        mapUtil = new MapUtil();
         initView();
         initRulerView();
         return view;
@@ -98,14 +105,16 @@ public class AnalysisFragment extends Fragment implements View.OnClickListener{
         point = view.findViewById(R.id.ll_point);
         cluster = view.findViewById(R.id.ll_cluster);
 
-        mapUtil.initMapView(mapView);
+        mapUtil = new MapUtil(mapView);
+
+        mapUtil.initMapView();
 
         halobios =LitePal
                 .where("time like ?","2008/1/%")
                 .find(Halobios.class);
         LogUtil.d("AnalysisFragment","halobios = " + halobios.size());
-        mapUtil.addGeoJsonToMapView(mapView,halobios);
-
+        mapUtil.createClusterLayerInMap(halobios);
+        mapUtil.createMarkerManagerInMap();
         //设置状态栏颜色
         StatusBarCompat.setStatusBarColor(activity,
                 activity.getResources().getColor(R.color.colorPrimaryDark));
@@ -134,7 +143,13 @@ public class AnalysisFragment extends Fragment implements View.OnClickListener{
         halobios =LitePal
                 .where("time like ?", time)
                 .find(Halobios.class);
-        mapUtil.addGeoJsonToMapView(mapView,halobios);
+        if(select == MARKER){
+            //mapUtil.createMarkerManagerInMap();
+            mapUtil.setMarkerManagerData(halobios);
+            //mapUtil.setMarkerHalobiosSource(halobios);
+        }else {
+            mapUtil.setClusterHalobiosSource(halobios);
+        }
     }
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState){
@@ -153,12 +168,18 @@ public class AnalysisFragment extends Fragment implements View.OnClickListener{
                 break;
             }
             case R.id.ll_point:{
-                //TODO:切换为点集的形式显示
+                select = MARKER;
+                mapUtil.removeAllLayers();
+                mapUtil.setMarkerManagerData(halobios);
+                //mapUtil.createMarkerLayerInMap(halobios);
                 LogUtil.d("AnalysisFragment","You click point");
                 break;
             }
             case R.id.ll_cluster:{
-                //TODO：切换为群集的形式显示
+                select = CLUSTER;
+                mapUtil.removeAllLayers();
+                mapUtil.removeAllMarkerData();
+                mapUtil.createClusterLayerInMap(halobios);
                 LogUtil.d("AnalysisFragment","You click cluster");
                 break;
             }

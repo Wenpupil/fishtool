@@ -38,6 +38,8 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
     //MapBox依赖 -- 地图
     implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:8.5.0'
+    //MapBox插件
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-annotation-v8:0.7.0'
     //状态栏操作API
     implementation 'com.githang:status-bar-compat:0.7'
     //图片加载框架

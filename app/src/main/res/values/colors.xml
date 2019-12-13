@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#2196F3</color>
     <color name="colorAccent">#FFEB3B</color>
 
+    <color name="haolobios_point_color">#FF9800</color>
+
     <color name="mapboxRed">#4CAF50</color>
     <color name="mapboxGreen">#2196F3</color>
 
