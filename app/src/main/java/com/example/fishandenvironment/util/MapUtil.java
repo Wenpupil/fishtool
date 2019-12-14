@@ -1,5 +1,6 @@
 package com.example.fishandenvironment.util;
 
+import android.content.Context;
 import android.graphics.Color;
 
 import androidx.annotation.NonNull;
@@ -7,6 +8,7 @@ import androidx.core.content.ContextCompat;
 
 import com.example.fishandenvironment.R;
 import com.example.fishandenvironment.bean.Halobios;
+import com.example.fishandenvironment.listener.MyOnCircleClickListener;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.mapbox.geojson.Feature;
@@ -18,10 +20,8 @@ import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
-import com.mapbox.mapboxsdk.plugins.annotation.Circle;
 import com.mapbox.mapboxsdk.plugins.annotation.CircleManager;
 import com.mapbox.mapboxsdk.plugins.annotation.CircleOptions;
-import com.mapbox.mapboxsdk.plugins.annotation.OnCircleClickListener;
 import com.mapbox.mapboxsdk.style.expressions.Expression;
 import com.mapbox.mapboxsdk.style.layers.CircleLayer;
 import com.mapbox.mapboxsdk.style.layers.Layer;
@@ -64,13 +64,15 @@ import java.util.List;
  */
 public class MapUtil {
 
+    private Context context;
     private MapView mapView;
     private CircleManager circleManager;
     public MapUtil(MapView mapView){
         this.mapView = mapView;
     }
 
-    /**初始化MapView控件
+    /**
+     * 初始化MapView控件
      */
     public void initMapView(){
         MapboxMap map;
@@ -90,7 +92,12 @@ public class MapUtil {
         });
     }
 
-    /**物种分布打包成GeoJson
+    public void setContext(Context context){
+        this.context = context;
+    }
+
+    /**
+     * 物种分布打包成GeoJson
      * @param halobiosList 物种分布集合
      * @return 生成地理点FeatureCollection
      */
@@ -106,7 +113,8 @@ public class MapUtil {
         return FeatureCollection.fromFeatures(features);
     }
 
-    /**物种分布打包成不同特征的features集合 -- setMarkerManagerData中使用
+    /**
+     * 物种分布打包成不同特征的features集合 -- setMarkerManagerData中使用
      * @param halobiosList 物种分布集合
      * @return 生成地理点FeatureCollection
      */
@@ -121,12 +129,13 @@ public class MapUtil {
             JsonElement jsonElement = gson.toJsonTree(halobios);
             circleOptions.withData(jsonElement);
             circleOptions.withCircleColor("#FF9800");
-            circleOptions.withCircleRadius(6.5f);
+            circleOptions.withCircleRadius(7f);
             circleOptionsList.add(circleOptions);
         }
         return circleOptionsList;
     }
-    /**在地图上创建群集图层并初始化
+    /**
+     * 在地图上创建群集图层并初始化
      * @param halobiosList 第一次需要显示的物种分布集合
      */
     public void createClusterLayerInMap(List<Halobios> halobiosList){
@@ -138,7 +147,8 @@ public class MapUtil {
         });
     }
 
-    /**在地图上创建点集图层并初始化
+    /**
+     * 在地图上创建点集图层并初始化
      * @param halobiosList 第一次需要显示的物种分布集合
      */
     public void createMarkerLayerInMap(List<Halobios> halobiosList){
@@ -150,10 +160,12 @@ public class MapUtil {
         });
     }
 
-    //创建物种分布群集图层
+    /**
+     * 创建物种分布群集图层
+     * @param style MapView的MapboxMap的style样式
+     */
     private void createClusteredLayer(@NonNull Style style) {
         LogUtil.d("MapUtil","add source");
-        //Creating a marker layer for single data points
         SymbolLayer unclustered = new SymbolLayer("custom-unclustered-points", "cluster-halobios");
         unclustered.setProperties(
                 iconImage("cross-icon-id"),
@@ -172,8 +184,6 @@ public class MapUtil {
         );
         unclustered.setFilter(Expression.has("mag"));
         style.addLayer(unclustered);
-        // Use the earthquakes GeoJSON source to create three layers: One layer for each cluster category.
-        // Each point range gets a different fill color.
         int[][] layers = new int[][] {
                 new int[] {150, ContextCompat.getColor(LitePalApplication.getContext(), R.color.mapboxRed)},
                 new int[] {20, ContextCompat.getColor(LitePalApplication.getContext(), R.color.mapboxGreen)},
@@ -187,7 +197,6 @@ public class MapUtil {
                     circleRadius(18f)
             );
             Expression pointCount = toNumber(get("point_count"));
-            // Add a filter to the cluster layer that hides the circles based on "point_count"
             circles.setFilter(
                     i == 0
                             ? all(has("point_count"),
@@ -199,7 +208,6 @@ public class MapUtil {
             );
             style.addLayer(circles);
         }
-        //Add the count labels
         SymbolLayer count = new SymbolLayer("custom-count", "cluster-halobios");
         count.setProperties(
                 textField(Expression.toString(get("point_count"))),
@@ -210,6 +218,11 @@ public class MapUtil {
         );
         style.addLayer(count);
     }
+
+    /**
+     * 创建物种分布点集图层
+     * @param style MapView的MapboxMap的style样式
+     */
     private void createMarkerLayer(@NonNull Style style){
         CircleLayer circleLayer = new CircleLayer("custom-marker-halobios", "marker-halobios");
         circleLayer.setProperties(
@@ -225,7 +238,10 @@ public class MapUtil {
     public void addRasterLayer(){
     }
 
-    //设置群集图层的数据源，通过改变GeoJson来改变图层显示
+    /**
+     * 设置群集图层的数据源，通过改变GeoJson来改变图层显示
+     * @param halobios 传入Halobios数据链，函数内传换为空间数据，最后转为json格式，进行动态绘制
+     */
     public void setClusterHalobiosSource(List<Halobios> halobios){
         FeatureCollection featureCollection = halobiosListToGeoJson(halobios);
         mapView.getMapAsync(mapboxMap -> {
@@ -274,19 +290,23 @@ public class MapUtil {
         });
     }
 
+    /**
+     * 创建可点击圆形标记图层，并设置监听反馈
+     */
     public void createMarkerManagerInMap(){
         mapView.getMapAsync(mapboxMap -> {
             mapboxMap.getStyle(style -> {
                 circleManager = new CircleManager(mapView,mapboxMap,style);
-                circleManager.addClickListener(new OnCircleClickListener() {
-                    @Override
-                    public void onAnnotationClick(Circle circle) {
-                        LogUtil.d("CircleClick",circle.getData()+"");
-                    }
-                });
+                MyOnCircleClickListener listener = new MyOnCircleClickListener(context);
+                circleManager.addClickListener(listener);
             });
         });
     }
+
+    /**
+     * 设置圆形标记图层上数据信息
+     * @param halobiosList 传入Halobios链表，生成CircleOptions数据链，并动态绘制
+     */
     public void setMarkerManagerData(List<Halobios> halobiosList){
         List<CircleOptions> circleOptionsList= halobiosListToFeatures(halobiosList);
         mapView.getMapAsync(mapboxMap -> {
@@ -296,6 +316,9 @@ public class MapUtil {
             });
         });
     }
+    /**
+     * 移除圆形标记图层上的所有数据
+     */
     public void removeAllMarkerData(){
         mapView.getMapAsync(mapboxMap -> {
             mapboxMap.getStyle(style -> {

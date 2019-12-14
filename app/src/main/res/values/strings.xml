@@ -32,4 +32,11 @@
     <string name="fragment_analysis_tv_point">点集</string>
     <string name="fragment_analysis_iv_cluster">群集图标</string>
     <string name="fragment_analysis_tv_cluster">群集</string>
+
+    <string name="halobios_info_dialog_name">Shark Test</string>
+    <string name="halobios_info_dialog_namech">测试文字</string>
+    <string name="halobios_info_dialog_tv_latitude">纬度:</string>
+    <string name="halobios_info_dialog_latitude">-23.1</string>
+    <string name="halobios_info_dialog_tv_longitude">经度:</string>
+    <string name="halobios_info_dialog_longitude">123.11</string>
 </resources>

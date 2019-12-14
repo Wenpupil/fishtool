@@ -106,6 +106,7 @@ public class AnalysisFragment extends Fragment implements View.OnClickListener{
         cluster = view.findViewById(R.id.ll_cluster);
 
         mapUtil = new MapUtil(mapView);
+        mapUtil.setContext(getContext());
 
         mapUtil.initMapView();
 
