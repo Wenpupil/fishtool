@@ -21,6 +21,7 @@ import com.example.fishandenvironment.listener.BiologyClickListener;
 import com.githang.statusbar.StatusBarCompat;
 
 import org.litepal.LitePal;
+import org.litepal.LitePalApplication;
 
 import java.util.List;
 

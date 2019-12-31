@@ -15,9 +15,22 @@
     <color name="main_tab_icon_color">#1296db</color>
     <color name="main_tab_background">#ECECEC</color>
     <color name="main_tab_textColor">#8a8a8a</color>
-    <color name="main_tab_textColor_in">#1296db</color>
+    <color name="main_tab_textColor_in">#2B2B2B</color>
 
     <color name="test_point_color">#CF512F</color>
 
     <color name="fragment_biology_background">#F3F3F3</color>
+
+    <color name="color_1">#03A9F4</color>
+    <color name="color_2">#FFC107</color>
+    <color name="color_3">#FF9800</color>
+    <color name="color_4">#F36032</color>
+    <color name="color_5">#57C55C</color>
+    <color name="color_6">#CDDC39</color>
+    <color name="color_7">#6DEEFF</color>
+    <color name="color_8">#D5C084</color>
+    <color name="color_9">#C258DB</color>
+    <color name="color_10">#5269E6</color>
+    <color name="color_11">#E91E63</color>
+    <color name="color_12">#00C2AF</color>
 </resources>

@@ -21,17 +21,14 @@ import com.example.fishandenvironment.util.MapUtil;
 import com.example.fishandenvironment.view.RulerView;
 import com.githang.statusbar.StatusBarCompat;
 import com.mapbox.android.gestures.MoveGestureDetector;
-import com.mapbox.geojson.Feature;
-import com.mapbox.geojson.FeatureCollection;
-import com.mapbox.geojson.Geometry;
-import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
+import com.mapbox.mapboxsdk.style.layers.RasterLayer;
+import com.mapbox.mapboxsdk.style.sources.RasterSource;
 
 import org.litepal.LitePal;
-
 import java.util.List;
 
 /**
@@ -250,6 +247,19 @@ public class AnalysisFragment extends Fragment implements View.OnClickListener{
                     }
                 });
             }
+        });
+    }
+
+    private void addRasterLayer(){
+        mapView.getMapAsync(mapboxMap -> {
+            mapboxMap.getStyle(style -> {
+                RasterSource rasterSource = new RasterSource("test",
+                        "mapbox://wenpupil.7g4li9mq");
+                style.addSource(rasterSource);
+
+                RasterLayer rasterLayer = new RasterLayer("tests","test");
+                style.addLayer(rasterLayer);
+            });
         });
     }
 }

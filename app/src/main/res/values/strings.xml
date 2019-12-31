@@ -6,12 +6,11 @@
     //mapbox令牌
     <string name="mapbox_access_token">pk.eyJ1Ijoid2VucHVwaWwiLCJhIjoiY2s0MTQ4ZjU1MDFoaTNrczNtbzFubWc1NCJ9.JlVWjWBKC0m6D5bxmWEYIg</string>
 
-
     <string name="app_name">fishandenvironment</string>
     <string name="activity_main_iv_all">展开tab</string>
-    <string name="main_tab_left">左图标</string>
-    <string name="main_tab_middle">中间图标</string>
-    <string name="main_tab_right">右图标</string>
+    <string name="main_tab_left">地图</string>
+    <string name="main_tab_middle">物种</string>
+    <string name="main_tab_right">图层</string>
 
     <string name="custom_left_img">左边图片</string>
 
